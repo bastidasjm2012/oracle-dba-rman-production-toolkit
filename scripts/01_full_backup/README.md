@@ -37,18 +37,22 @@ The backup includes:
 
 Edit the Bash wrapper according to your environment:
 
-
+```bash
 export ORACLE_SID=orahuila
 
 export ORACLE_HOME=/u01/app/odaorahome/oracle/product/19.0.0.0/dbhome_1
 
 BACKUP_BASE=/u02/backup/rman
+```
 
 ## Execution
 
+```bash
 chmod +x full_backup_19c_production.sh
 
 ./full_backup_19c_production.sh
+
+```
 
 ## Output Example
 
@@ -65,16 +69,14 @@ chmod +x full_backup_19c_production.sh
 - BACKUP SPFILE
 - DELETE NOPROMPT OBSOLETE
 - COMPRESSED BACKUPSET
-
-
-TAG
+- TAG
 
 ## Production Notes
 
 Validate the backup regularly using:
-
+```bash
 RESTORE DATABASE VALIDATE;
 
 RESTORE ARCHIVELOG ALL VALIDATE;
-
+```
 For RAC, ASM, Data Guard, or ODA environments, validate that the backup path is accessible from the node where the database instance is running.
