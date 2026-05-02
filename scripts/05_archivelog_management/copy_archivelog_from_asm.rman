@@ -1,0 +1,10 @@
+-- =============================================================================
+-- Script Name : copy_archivelog_from_asm.rman
+-- Description : Copy archivelog from ASM to filesystem
+-- Author      : Jesus Bastidas
+-- Example     : RMAN> @copy_archivelog_from_asm.rman
+-- =============================================================================
+
+RUN {
+    COPY ARCHIVELOG '&1' TO '&2';
+}
