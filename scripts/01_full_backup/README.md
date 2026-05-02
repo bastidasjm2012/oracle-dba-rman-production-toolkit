@@ -47,9 +47,13 @@ BACKUP_BASE=/u02/backup/rman
 
 ## Execution
 
+Grant execution permission:
+
 ```bash
 chmod +x full_backup_19c_production.sh
-
+```
+## Run backup:
+```bash
 ./full_backup_19c_production.sh
 
 ```
