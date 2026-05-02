@@ -1,0 +1,9 @@
+-- =============================================================================
+-- Script Name : syntax_check_backup_database.rman
+-- Description : Oracle RMAN Syntax Validation
+-- Author      : Jesus Bastidas
+-- Version     : 1.0
+-- Platform    : Oracle Database 19c / 21c / 23ai
+-- =============================================================================
+
+SYNTAX CHECK BACKUP DATABASE;
