@@ -1,0 +1,35 @@
+-- =============================================================================
+-- Script Name : full_backup_19c_production.rman
+-- Description : Oracle RMAN Full Database Backup - Production Version
+-- Author      : Jesus Bastidas
+-- Version     : 1.0
+-- Platform    : Oracle Database 19c / 21c / 23ai
+-- =============================================================================
+
+RUN {
+    CONFIGURE CONTROLFILE AUTOBACKUP ON;
+    CONFIGURE DEVICE TYPE DISK PARALLELISM 2 BACKUP TYPE TO COMPRESSED BACKUPSET;
+    CONFIGURE RETENTION POLICY TO RECOVERY WINDOW OF 7 DAYS;
+
+    ALLOCATE CHANNEL c1 DEVICE TYPE DISK FORMAT '&1/full_db_%d_%T_%U.bkp';
+    ALLOCATE CHANNEL c2 DEVICE TYPE DISK FORMAT '&1/full_db_%d_%T_%U.bkp';
+
+    BACKUP AS COMPRESSED BACKUPSET
+        DATABASE
+        TAG 'FULL_DB_BACKUP_PROD'
+        PLUS ARCHIVELOG
+        TAG 'FULL_DB_BACKUP_WITH_ARCHIVELOG';
+
+    BACKUP CURRENT CONTROLFILE
+        FORMAT '&1/controlfile_%d_%T_%U.bkp'
+        TAG 'CONTROLFILE_BACKUP_PROD';
+
+    BACKUP SPFILE
+        FORMAT '&1/spfile_%d_%T_%U.bkp'
+        TAG 'SPFILE_BACKUP_PROD';
+
+    DELETE NOPROMPT OBSOLETE;
+
+    RELEASE CHANNEL c1;
+    RELEASE CHANNEL c2;
+}
