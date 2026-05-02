@@ -1,0 +1,39 @@
+-- =============================================================================
+-- Script Name : incremental_backup_19c_production.rman
+-- Description : Oracle RMAN Incremental Level 1 Backup - Production Version
+-- Author      : Jesus Bastidas
+-- Version     : 1.0
+-- Platform    : Oracle Database 19c / 21c / 23ai
+-- =============================================================================
+
+RUN {
+    CONFIGURE CONTROLFILE AUTOBACKUP ON;
+    CONFIGURE DEVICE TYPE DISK PARALLELISM 2 BACKUP TYPE TO COMPRESSED BACKUPSET;
+    CONFIGURE RETENTION POLICY TO RECOVERY WINDOW OF 7 DAYS;
+
+    ALLOCATE CHANNEL c1 DEVICE TYPE DISK FORMAT '&1/incr_l1_%d_%T_%U.bkp';
+    ALLOCATE CHANNEL c2 DEVICE TYPE DISK FORMAT '&1/incr_l1_%d_%T_%U.bkp';
+
+    BACKUP AS COMPRESSED BACKUPSET
+        INCREMENTAL LEVEL 1
+        DATABASE
+        TAG 'INCREMENTAL_LEVEL1_PROD';
+
+    BACKUP AS COMPRESSED BACKUPSET
+        ARCHIVELOG ALL
+        FORMAT '&1/arch_%d_%T_%U.bkp'
+        TAG 'ARCHIVELOG_BACKUP_AFTER_INCREMENTAL';
+
+    BACKUP CURRENT CONTROLFILE
+        FORMAT '&1/controlfile_%d_%T_%U.bkp'
+        TAG 'CONTROLFILE_BACKUP_AFTER_INCREMENTAL';
+
+    BACKUP SPFILE
+        FORMAT '&1/spfile_%d_%T_%U.bkp'
+        TAG 'SPFILE_BACKUP_AFTER_INCREMENTAL';
+
+    DELETE NOPROMPT OBSOLETE;
+
+    RELEASE CHANNEL c1;
+    RELEASE CHANNEL c2;
+}
