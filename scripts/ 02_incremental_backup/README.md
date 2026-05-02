@@ -39,7 +39,6 @@ The backup includes:
 export ORACLE_SID=orahuila
 export ORACLE_HOME=/u01/app/odaorahome/oracle/product/19.0.0.0/dbhome_1
 BACKUP_BASE=/u02/backup/rman
-```
 
 ## Execution
 
@@ -48,7 +47,6 @@ Grant execution permission:
 ```bash
 chmod +x incremental_backup_19c_production.sh
 ```
-
 ## Run backup:
 
 ```bash
@@ -56,7 +54,6 @@ chmod +x incremental_backup_19c_production.sh
 ```
 
 ## Output Example
-
 Backup files:
 
 ```bash
@@ -69,7 +66,7 @@ Log file:
 /u02/backup/rman/orahuila/logs/incremental_backup_orahuila_20260501_223000.log
 ```
 
-Sample execution:
+## Sample execution:
 
 ```text
 ============================================================
@@ -86,3 +83,27 @@ End Time     : 2026-05-01 22:42:18
 RMAN Status  : 0
 ============================================================
 ```
+
+## RMAN Features Used
+
+- BACKUP INCREMENTAL LEVEL 1 DATABASE
+- BACKUP ARCHIVELOG ALL
+- BACKUP CURRENT CONTROLFILE
+- BACKUP SPFILE
+- DELETE NOPROMPT OBSOLETE
+- COMPRESSED BACKUPSET
+- TAG
+
+## Production Notes
+
+For better incremental backup performance, enable Block Change Tracking:
+
+```bash
+ALTER DATABASE ENABLE BLOCK CHANGE TRACKING;
+```
+Then validate:
+```
+SELECT filename, status
+FROM v$block_change_tracking;
+```
+For RAC, ASM, Data Guard, or ODA environments, confirm that the backup destination is accessible from the active instance node.
