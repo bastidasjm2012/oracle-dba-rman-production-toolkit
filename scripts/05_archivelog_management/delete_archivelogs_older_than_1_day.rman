@@ -1,0 +1,11 @@
+-- =============================================================================
+-- Script Name : delete_archivelogs_older_than_1_day.rman
+-- Description : Delete archivelogs older than 1 day after backup validation
+-- Author      : Jesus Bastidas
+-- =============================================================================
+
+RUN {
+    DELETE NOPROMPT ARCHIVELOG
+        UNTIL TIME 'SYSDATE-1'
+        BACKED UP 1 TIMES TO DEVICE TYPE DISK;
+}
