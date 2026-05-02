@@ -1,0 +1,21 @@
+-- =============================================================================
+-- Script Name : enable_trace_19c_production.rman
+-- Description : Oracle RMAN Trace and Diagnostics
+-- Author      : Jesus Bastidas
+-- Version     : 1.0
+-- Platform    : Oracle Database 19c / 21c / 23ai
+-- =============================================================================
+
+SET TRACE ENABLED;
+
+SPOOL TRACE TO '&1';
+
+REPORT SCHEMA;
+
+LIST BACKUP SUMMARY;
+
+LIST BACKUP OF DATAFILE 1;
+
+LIST COPY OF DATAFILE 1;
+
+SPOOL TRACE OFF;
