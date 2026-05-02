@@ -1,0 +1,16 @@
+-- =============================================================================
+-- Script Name : recover_dropped_table_19c_production.rman
+-- Description : Oracle RMAN Dropped Table Recovery - Production Version
+-- Author      : Jesus Bastidas
+-- Version     : 1.0
+-- Platform    : Oracle Database 19c / 21c / 23ai
+-- =============================================================================
+
+RUN {
+    RECOVER TABLE &1.&2
+        UNTIL TIME "TO_DATE('&3','YYYY-MM-DD HH24:MI:SS')"
+        AUXILIARY DESTINATION '&4'
+        DATAPUMP DESTINATION '&5'
+        DUMP FILE '&2_recovered.dmp'
+        NOTABLEIMPORT;
+}
