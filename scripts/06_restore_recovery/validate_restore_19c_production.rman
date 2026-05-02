@@ -1,0 +1,17 @@
+-- =============================================================================
+-- Script Name : validate_restore_19c_production.rman
+-- Description : Oracle RMAN Restore Validation - Production Version
+-- Author      : Jesus Bastidas
+-- Version     : 1.0
+-- Platform    : Oracle Database 19c / 21c / 23ai
+-- =============================================================================
+
+RUN {
+
+    RESTORE DATABASE VALIDATE;
+
+    RESTORE ARCHIVELOG ALL VALIDATE;
+
+    RESTORE CONTROLFILE VALIDATE;
+
+}
