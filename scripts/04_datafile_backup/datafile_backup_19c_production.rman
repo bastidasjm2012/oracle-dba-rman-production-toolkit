@@ -1,0 +1,32 @@
+-- =============================================================================
+-- Script Name : datafile_backup_19c_production.rman
+-- Description : Oracle RMAN Datafile Backup - Production Version
+-- Author      : Jesus Bastidas
+-- Version     : 1.0
+-- Platform    : Oracle Database 19c / 21c / 23ai
+-- =============================================================================
+
+RUN {
+    CONFIGURE CONTROLFILE AUTOBACKUP ON;
+    CONFIGURE DEVICE TYPE DISK PARALLELISM 2 BACKUP TYPE TO COMPRESSED BACKUPSET;
+    CONFIGURE RETENTION POLICY TO RECOVERY WINDOW OF 7 DAYS;
+
+    ALLOCATE CHANNEL c1 DEVICE TYPE DISK FORMAT '&1/datafile_%d_%T_%U.bkp';
+    ALLOCATE CHANNEL c2 DEVICE TYPE DISK FORMAT '&1/datafile_%d_%T_%U.bkp';
+
+    BACKUP AS COMPRESSED BACKUPSET
+        DATAFILE &2
+        TAG 'DATAFILE_BACKUP_PROD';
+
+    BACKUP AS COMPRESSED BACKUPSET
+        ARCHIVELOG ALL
+        FORMAT '&1/arch_after_datafile_%d_%T_%U.bkp'
+        TAG 'ARCHIVELOG_AFTER_DATAFILE_BACKUP';
+
+    BACKUP CURRENT CONTROLFILE
+        FORMAT '&1/controlfile_after_datafile_%d_%T_%U.bkp'
+        TAG 'CONTROLFILE_AFTER_DATAFILE_BACKUP';
+
+    RELEASE CHANNEL c1;
+    RELEASE CHANNEL c2;
+}
