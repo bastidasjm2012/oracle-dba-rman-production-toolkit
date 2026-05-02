@@ -1,0 +1,18 @@
+-- =============================================================================
+-- Script Name : restore_archivelog_sequence_19c_production.rman
+-- Description : Oracle RMAN Archivelog Restore by Sequence - Production Version
+-- Author      : Jesus Bastidas
+-- Version     : 1.0
+-- Platform    : Oracle Database 19c / 21c / 23ai
+-- =============================================================================
+
+RUN {
+
+    SET ARCHIVELOG DESTINATION TO '&1';
+
+    RESTORE ARCHIVELOG
+        FROM SEQUENCE &2
+        UNTIL SEQUENCE &3
+        THREAD &4;
+
+}
