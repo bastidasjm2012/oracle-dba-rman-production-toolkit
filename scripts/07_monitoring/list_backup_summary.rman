@@ -1,0 +1,9 @@
+-- =============================================================================
+-- Script Name : list_backup_summary.rman
+-- Description : Oracle RMAN Backup Summary
+-- Author      : Jesus Bastidas
+-- Version     : 1.0
+-- Platform    : Oracle Database 19c / 21c / 23ai
+-- =============================================================================
+
+LIST BACKUP SUMMARY;
