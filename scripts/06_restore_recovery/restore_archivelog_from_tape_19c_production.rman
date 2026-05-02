@@ -1,0 +1,22 @@
+-- =============================================================================
+-- Script Name : restore_archivelog_from_tape_19c_production.rman
+-- Description : Oracle RMAN Archivelog Restore from Tape - Production Version
+-- Author      : Jesus Bastidas
+-- Version     : 1.0
+-- Platform    : Oracle Database 19c / 21c / 23ai
+-- =============================================================================
+
+RUN {
+
+    ALLOCATE CHANNEL t1 DEVICE TYPE SBT_TAPE;
+
+    SET ARCHIVELOG DESTINATION TO '&1';
+
+    RESTORE ARCHIVELOG
+        FROM SEQUENCE &2
+        UNTIL SEQUENCE &3
+        THREAD &4;
+
+    RELEASE CHANNEL t1;
+
+}
