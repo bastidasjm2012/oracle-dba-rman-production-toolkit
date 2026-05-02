@@ -7,10 +7,14 @@
 -- =============================================================================
 
 RUN {
+
+    ALLOCATE CHANNEL c1 DEVICE TYPE DISK;
+
     RECOVER TABLE &1.&2
         UNTIL TIME "TO_DATE('&3','YYYY-MM-DD HH24:MI:SS')"
         AUXILIARY DESTINATION '&4'
-        DATAPUMP DESTINATION '&5'
-        DUMP FILE '&2_recovered.dmp'
-        NOTABLEIMPORT;
+        REMAP TABLE '&1'.'&2':'&5';
+
+    RELEASE CHANNEL c1;
+
 }
